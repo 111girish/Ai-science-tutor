@@ -3,6 +3,7 @@ import getEnv from "./config.js";
 import cors from 'cors';
 
 import apiRoutes from "./routes/api.js";
+import authRoutes from "./routes/auth.js";
 
 const PORT = getEnv('port');
 
