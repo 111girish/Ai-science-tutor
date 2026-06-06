@@ -16,6 +16,7 @@ app.use(cors({
 }))
 
 app.use('/api', apiRoutes);
+app.use('/api', authRoutes);
 
 app.get("/", (req, res) => (res.send("HELLO FROM THE HOMEPAGE!!! ")));
 

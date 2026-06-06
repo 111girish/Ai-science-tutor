@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt"
 import pool from "../db.js"
-import getEnv from "../config";
+import getEnv from "../config.js";
 
-export const Register = (req, res) => {
+export const Register = async (req, res) => {
   const {full_name, user_name, password, email} = req.body;
 
   if (!full_name|| !user_name || !password || !email) return res.send("Something is missing!!");
@@ -28,7 +28,7 @@ export const Register = (req, res) => {
   }
 }
 
-export const Login = (req, res) => {
+export const Login = async (req, res) => {
   const {user_name, email, password} = req.body;
   if (!user_name, !email, !password) return res.send("Something is missing!!");
 

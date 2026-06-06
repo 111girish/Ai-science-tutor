@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import getEnv from "../config.js";
+import {getEnv} from '../config.js';
 
 
 const authentication = (req, res, next) => {
