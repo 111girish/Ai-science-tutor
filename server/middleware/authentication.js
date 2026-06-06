@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import getEnv from "../config.js";
 
 
