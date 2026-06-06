@@ -27,3 +27,11 @@ CREATE TABLE messages(
   content TEXT NOT NULL, 
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO subjects (subject) VALUES
+('Mathematics'),
+('Physics'),
+('Chemistry'),
+('ECM'),
+('Digital Logic'),
+('OOP');
