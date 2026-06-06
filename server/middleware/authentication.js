@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
-import {getEnv} from '../config.js';
+import getEnv from '../config.js';
 
 
 const authentication = (req, res, next) => {
-  const authHeader = req.headers['authentication'];
+  const authHeader = req.headers['authorization'];
 
-  if (!authHeader) return res.send(401).json({message: "Authentication failed!!"});
+  if (!authHeader) return res.status(401).json({message: "Authentication failed!!"});
 
   const token = authHeader.split(' ')[1] || '';
   const secret = getEnv('accessToken');
