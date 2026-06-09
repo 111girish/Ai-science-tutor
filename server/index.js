@@ -6,7 +6,7 @@ import pool from "./db.js";
 
 import apiRoutes from "./routes/api.js";
 import authRoutes from "./routes/auth.js";
-import subjectRoutes from './routes/subject.js'
+import subjectRoutes from './routes/subjects.js'
 
 
 const PORT = getEnv('port');
