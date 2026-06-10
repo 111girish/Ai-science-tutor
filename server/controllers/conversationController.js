@@ -3,12 +3,17 @@ import {useState} from "react";
 import { useParams } from "react-router-dom";
 
 const params = useParams();
-export const getConvo = (req, res) => {
-  
+export const getConvo = async (req, res) => {  
+  const userId = req.user.userId;
+
+  const text = 'SELECT * FROM conversations WHERE user_id = $1';
+  const value = [userId];
+
+
   const client =await pool.connect();
   try {
-    const result = await clent.query(text, value);
-    res.status(200).json({message: "Conversation is get!!"});
+    const result = await client.query(text, value);
+    res.status(200).json({message: "Conversation is get!!",  data: result.rows});
   } catch(err){
     console.log(err);
     res.status(400).json({message: "There seems to be an error!!"});
