@@ -6,10 +6,12 @@ const envVars = {
   dbConnect : process.env.DB_CONNECT,
   accessToken : process.env.ACCESS_TOKEN,
   frontendUrl : process.env.FRONTEND_URL,
-  nodeEnv : process.env.NODE_ENV
+  nodeEnv : process.env.NODE_ENV,
+  geminiApiKey : process.env.GEMINI_API_KEY
 }
 
 function getEnv(varName) {
+  console.log('looking for:', varName, '| found:', envVars[varName]);
   if(envVars[varName]){
     return envVars[varName];
   } else{
