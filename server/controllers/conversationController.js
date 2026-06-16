@@ -1,8 +1,5 @@
 import pool from "../db.js";
-import {useState} from "react";
-import { useParams } from "react-router-dom";
 
-const params = useParams();
 export const getConvo = async (req, res) => {  
   const userId = req.user.userId;
 
@@ -22,17 +19,17 @@ export const getConvo = async (req, res) => {
   }
 };
 
-export const postConvo = (req, res) => {
+export const postConvo = async (req, res) => {
   const userId = req.user.userId;
 
   const {subjectId, title} = req.body;
 
-  const text = "INSERT INTO conversations(title, subjectId, userId) VALUES($1, $2, $3) RETURNING * ;";
+  const text = "INSERT INTO conversations(title, subject_id, user_id) VALUES($1, $2, $3) RETURNING * ;";
   const values = [title, subjectId, userId];
 
-  const client = pool.connect();
+  const client = await pool.connect();
   try {
-    const result = client.query(text, value);
+    const result =await client.query(text, values);
     const data = result.rows[0];
     res.status(200).json({message:"There conversation is added", data});
   } catch(err) {
@@ -43,16 +40,16 @@ export const postConvo = (req, res) => {
   }
 };
 
-export const deleteConvo = (req, res) => {
-  const {convoId} = req.params();
+export const deleteConvo = async (req, res) => {
+  const {convoId} = req.params;
   const userId = req.user.userId;
 
-  const text = "DELETE FROM conversations WHERE convoId = $1 AND userId = $2";
+  const text = "DELETE FROM conversations WHERE conversation_id = $1 AND user_id = $2";
   const values = [convoId, userId];
 
-  const client = pool.connect();
+  const client =await pool.connect();
   try {
-    const result = client.query(text, value);
+    const result = await client.query(text, values);
     res.status(200).json({message: "The conversation has been deleted"})
   } catch (err) {
     console.log(err);

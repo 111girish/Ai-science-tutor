@@ -6,7 +6,8 @@ import pool from "./db.js";
 
 import apiRoutes from "./routes/api.js";
 import authRoutes from "./routes/auth.js";
-import subjectRoutes from './routes/subjects.js'
+import subjectRoutes from './routes/subjects.js';
+import conversationRoutes from './routes/conversations.js';
 
 
 const PORT = getEnv('port');
@@ -22,6 +23,7 @@ app.use(cors({
 app.use('/api', apiRoutes);
 app.use('/api', authRoutes);
 app.use('/api/', subjectRoutes);
+app.use('/api/', conversationRoutes);
 
 app.get("/", (req, res) => (res.send("HELLO FROM THE HOMEPAGE!!! ")));
 
