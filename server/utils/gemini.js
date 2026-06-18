@@ -1,7 +1,7 @@
 import getEnv from "../config.js";
 
 const askGemini = async (subject, history, userMessage) => {
-  const apiKey = getEnv("geminiApiKey");
+  const geminiApiKey = getEnv("geminiApiKey");
 
   const systemPrompt = `You are a science tutor. The student has selected ${subject}. 
 Only answer questions related to ${subject}. 
@@ -13,6 +13,38 @@ If the student asks about anything unrelated, politely redirect them back to ${s
       parts: [{text: hist.content}]
     }
   })
+  geminiHistory.push({role: 'user', parts: [{text: userMessage}]});
+
+  const fetchData = async () => {
+    const apiKey = geminiApiKey;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    bodyData = {
+      system_instruction: {parts: [{text: systemPrompt}]},
+      contents: geminiHistory
+    }
+
+    try{
+      const result = fetch(url, {
+        method: "POST",
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(bodyData)
+      })
+
+      if(!result.ok){
+        throw new Error('Http error! ');
+      }
+
+      const data = await result.json();
+      console.log("Success: ", data);
+
+    }catch(err){
+      console.log(err);
+    }
+
+  }
   
 };
 
