@@ -15,17 +15,17 @@ If the student asks about anything unrelated, politely redirect them back to ${s
   })
   geminiHistory.push({role: 'user', parts: [{text: userMessage}]});
 
-  const fetchData = async () => {
+  const fetchData = () => {
     const apiKey = geminiApiKey;
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-    bodyData = {
+    const bodyData = {
       system_instruction: {parts: [{text: systemPrompt}]},
       contents: geminiHistory
     }
 
     try{
-      const result = fetch(url, {
+      const result =await fetch(url, {
         method: "POST",
         headers: {
           'Content-type': 'application/json'
