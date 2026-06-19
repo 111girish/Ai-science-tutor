@@ -15,7 +15,6 @@ If the student asks about anything unrelated, politely redirect them back to ${s
   })
   geminiHistory.push({role: 'user', parts: [{text: userMessage}]});
 
-  const fetchData = () => {
     const apiKey = geminiApiKey;
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
@@ -36,15 +35,18 @@ If the student asks about anything unrelated, politely redirect them back to ${s
       if(!result.ok){
         throw new Error('Http error! ');
       }
-
       const data = await result.json();
-      console.log("Success: ", data);
+      const finalData = data.candidates[0].content.parts[0].text;
+
+      console.log("Success: ", finalData);
+      return finalData;
 
     }catch(err){
       console.log(err);
+      throw err;
     }
 
-  }
+  
   
 };
 
