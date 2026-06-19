@@ -21,3 +21,12 @@ export const getMessage = async (req, res) => {
   }
 
 }
+
+export const postMessage = async (req, res) => {
+  const userId = req.user.userId;
+  const {convoId} = req.params;
+
+  const {userMessage} = req.body;
+
+  const text1 = "SELECT * FROM conversations "
+}
