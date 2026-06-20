@@ -7,7 +7,7 @@ const conversations = express.Router();
 conversations.get('/conversations', authentication, getConvo);
 conversations.post('/conversations', authentication, postConvo);
 conversations.delete('/conversations/:convoId', authentication, deleteConvo);
-conversations.post('conversations/:convoId/messages', authentication, postMessage);
+conversations.post('/conversations/:convoId/messages', authentication, postMessage);
 conversations.get('/conversations/:convoId/messages', authentication, getMessage);
 
 export default conversations;

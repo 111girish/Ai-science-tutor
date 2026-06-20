@@ -11,7 +11,6 @@ const envVars = {
 }
 
 function getEnv(varName) {
-  console.log('looking for:', varName, '| found:', envVars[varName]);
   if(envVars[varName]){
     return envVars[varName];
   } else{
