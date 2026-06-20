@@ -2,7 +2,6 @@ import pool from "../db.js";
 
 export const getConvo = async (req, res) => {  
   const userId = req.user.userId;
-
   const text = 'SELECT * FROM conversations WHERE user_id = $1';
   const value = [userId];
 
