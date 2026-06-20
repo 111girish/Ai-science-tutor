@@ -40,10 +40,16 @@ export const postMessage = async (req, res) => {
     const subject = response2.rows[0].subject;
     const text3 = "SELECT content FROM messages WHERE conversation_id = $1 ORDER BY created_at ASC";
     const value3 = [convoId];
-    const response = await client.query(text3, value3);
-    const history = response.rows;
+    const response3 = await client.query(text3, value3);
+    const history = response3.rows;
     const AIresponse = await askGemini(subject, history, userMessage);
-
+    const text4 = "INSERT INTO messages(content, sender, conversation_id) VALUES ($1,$2,$3);";
+    const value4 = [userMessage, 'user', convoId];
+    const response4 = await client.query(text4, value4);
+    const text5 = "INSERT INTO messages(content, sender, conversation_id) VALUES($1, $2, $3);";
+    const value5 = [AIresponse, 'ai', convoId];
+    const response5 = await client.query(text5, value5);
+    res.status(200).json({message:"Ai has sent it's response", data: AIresponse});
   }catch(err){
     console.log(err);
     res.status(400).json({message: "There seems to be an error!!!"})
