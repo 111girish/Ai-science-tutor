@@ -35,8 +35,8 @@ const Login = () => {
     <>
       <p>Login page</p>
       <input onChange={handleChange} placeholder="username" name="username" />
-      <input onChange={handleChange} placeholder="password" name="password" />
-      <input onChange={handleChange} placeholder="email" name="email" />
+      <input onChange={handleChange} placeholder="password" type="password" name="password" />
+      <input onChange={handleChange} placeholder="email" type="email" name="email" />
       <button onClick={handleSubmit}>Login</button>
       {error && <p>{error}</p>}
     </>
