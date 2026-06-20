@@ -18,3 +18,11 @@ export const postConversations = async (title, subjectId) => {
   })
   return response.data;
 }
+
+export const deleteConversations = async (convoId) => {
+  const token = localStorage.getItem('token');
+  await axios.delete(`${BASE_URL}/api/conversations/${convoId}`,  {
+    headers: {Authorization: `Bearer ${token}`}
+  });
+  return;
+}
