@@ -7,8 +7,8 @@ import { getConversations } from "../api/conversations";
 
 const Dashboard =() =>{
 
-  const [subjects, setSubjects] = useState({});
-  const [conversations, setConversations] = useState({});
+  const [subjects, setSubjects] = useState([]);
+  const [conversations, setConversations] = useState([]);
 
   useEffect(() => {
     const subjectGet = async () => {
@@ -38,9 +38,11 @@ const Dashboard =() =>{
       <p>Dashboard page</p>
       <input placeholder="conversation title" />
       <select>
-        <option>
-
-        </option>
+        {subjects.map((subject) => (
+          <option key={subject.subject_id} value={subject.subject}>
+            {subject.subject}
+          </option>
+        ))}
       </select>
     </>
   );
