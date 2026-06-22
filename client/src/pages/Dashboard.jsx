@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 // import axios from 'axios';
 import { getSubjects } from "../api/subjects";
 import { getConversations } from "../api/conversations";
@@ -7,11 +7,14 @@ import { getConversations } from "../api/conversations";
 
 const Dashboard =() =>{
 
+  const [subjects, setSubjects] = useState({});
+  const [conversations, setConversations] = useState({});
+
   useEffect(() => {
     const subjectGet = async () => {
       try{
       const response = await getSubjects();
-      return response.data;
+      setSubjects(response.data);
       } catch(err){
         console.log(err);
       }
@@ -19,7 +22,7 @@ const Dashboard =() =>{
     const convoGet = async () => {
       try{
         const response = await getConversations();
-        return response.data;
+        setConversations(response.data);
       } catch(err) {
         console.log(err);
       }
