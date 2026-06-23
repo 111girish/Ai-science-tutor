@@ -55,7 +55,10 @@ const Dashboard = () => {
           </div>
         ))}
       </div>
-      <input placeholder="new title" name="newTitle" onChange={(e) => {setNewTitle(e.target.value)}} />
+      <input placeholder="new title" name="new Title" onChange={(e) => {setNewTitle(e.target.value)}} />
+      <p>
+        {newTitle}
+      </p>
     </>
   );
 };
