@@ -9,6 +9,9 @@ const navigate = useNavigate;
 const Dashboard = () => {
   const [subjects, setSubjects] = useState([]);
   const [conversations, setConversations] = useState([]);
+  const [newTitle, setNewTitle] = useState("");
+  const [selectedSubject, setSelectedSubject] = useState("");
+  
 
   useEffect(() => {
     const subjectGet = async () => {
