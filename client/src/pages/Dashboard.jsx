@@ -11,7 +11,7 @@ const Dashboard = () => {
   const [conversations, setConversations] = useState([]);
   const [newTitle, setNewTitle] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
-  
+
 
   useEffect(() => {
     const subjectGet = async () => {
@@ -55,6 +55,7 @@ const Dashboard = () => {
           </div>
         ))}
       </div>
+      <input placeholder="new title" name="newTitle" onChange={(e) => {setNewTitle(e.target.value)}} />
     </>
   );
 };
