@@ -5,13 +5,13 @@ import { getSubjects } from "../api/subjects";
 import { getConversations } from "../api/conversations";
 
 // const BASE_URL = import.meta.env.VITE_API_URL;
-const navigate = useNavigate;
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   const [subjects, setSubjects] = useState([]);
   const [conversations, setConversations] = useState([]);
   const [newTitle, setNewTitle] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
-
 
   useEffect(() => {
     const subjectGet = async () => {
@@ -35,15 +35,15 @@ const Dashboard = () => {
   }, []);
 
   const logout = () => {
-    localStorage.removeItem('token');
-    navigate('/login');
-  }
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   return (
     <>
       <p>Dashboard page</p>
       <input placeholder="conversation title" />
-      <select>
+      <select onChange={(e) => {setSelectedSubject(e.target.value)}}>
         {subjects.map((subject) => (
           <option key={subject.subject_id} value={subject.subject}>
             {subject.subject}
@@ -60,13 +60,15 @@ const Dashboard = () => {
           </div>
         ))}
       </div>
-      <input placeholder="new title" name="new Title" onChange={(e) => {setNewTitle(e.target.value)}} />
-      <p>
-        {newTitle}
-      </p>
-      <button onClick={logout}>
-        Logout
-      </button>
+      <input
+        placeholder="new title"
+        name="new Title"
+        onChange={(e) => {
+          setNewTitle(e.target.value);
+        }}
+      />
+      <p>{newTitle}</p>
+      <button onClick={logout}>Logout</button>
     </>
   );
 };
