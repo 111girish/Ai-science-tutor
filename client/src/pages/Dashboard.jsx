@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 // import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { getSubjects } from "../api/subjects";
-import { getConversations } from "../api/conversations";
+import { getConversations, postConversations } from "../api/conversations";
 
 // const BASE_URL = import.meta.env.VITE_API_URL;
 const Dashboard = () => {
@@ -13,23 +13,23 @@ const Dashboard = () => {
   const [newTitle, setNewTitle] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
 
+  const subjectGet = async () => {
+    try {
+      const response = await getSubjects();
+      setSubjects(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const convoGet = async () => {
+    try {
+      const response = await getConversations();
+      setConversations(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
-    const subjectGet = async () => {
-      try {
-        const response = await getSubjects();
-        setSubjects(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    const convoGet = async () => {
-      try {
-        const response = await getConversations();
-        setConversations(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
     subjectGet();
     convoGet();
   }, []);
@@ -39,13 +39,22 @@ const Dashboard = () => {
     navigate("/login");
   };
 
+  const handleSubmit = async () => {
+    await postConversations(newTitle, selectedSubject);
+    await convoGet();
+  };
+
   return (
     <>
       <p>Dashboard page</p>
       <input placeholder="conversation title" />
-      <select onChange={(e) => {setSelectedSubject(e.target.value)}}>
+      <select
+        onChange={(e) => {
+          setSelectedSubject(e.target.value);
+        }}
+      >
         {subjects.map((subject) => (
-          <option key={subject.subject_id} value={subject.subject}>
+          <option key={subject.subject_id} value={subject.subject_id}>
             {subject.subject}
           </option>
         ))}
@@ -54,7 +63,7 @@ const Dashboard = () => {
         {conversations.map((conversation) => (
           <div
             key={conversation.conversation_id}
-            onClick={() => navigate(`chat/${conversation.conversation_id}`)}
+            onClick={() => navigate(`/chat/${conversation.conversation_id}`)}
           >
             <p>{conversation.title}</p>
           </div>
@@ -67,6 +76,7 @@ const Dashboard = () => {
           setNewTitle(e.target.value);
         }}
       />
+      <button onClick={handleSubmit}>Submit</button>
       <p>{newTitle}</p>
       <button onClick={logout}>Logout</button>
     </>
