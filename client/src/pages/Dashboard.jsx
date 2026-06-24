@@ -34,6 +34,11 @@ const Dashboard = () => {
     convoGet();
   }, []);
 
+  const logout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  }
+
   return (
     <>
       <p>Dashboard page</p>
@@ -59,6 +64,9 @@ const Dashboard = () => {
       <p>
         {newTitle}
       </p>
+      <button onClick={logout}>
+        Logout
+      </button>
     </>
   );
 };
