@@ -11,7 +11,7 @@ const Dashboard = () => {
   const [subjects, setSubjects] = useState([]);
   const [conversations, setConversations] = useState([]);
   const [newTitle, setNewTitle] = useState("");
-  const [selectedSubject, setSelectedSubject] = useState("");
+  const [selectedSubjectId, setSelectedSubjectId] = useState("");
 
   const subjectGet = async () => {
     try {
@@ -40,17 +40,23 @@ const Dashboard = () => {
   };
 
   const handleSubmit = async () => {
-    await postConversations(newTitle, selectedSubject);
+    await postConversations(newTitle, selectedSubjectId);
     await convoGet();
   };
 
   return (
     <>
       <p>Dashboard page</p>
-      <input placeholder="conversation title" />
+      <input
+        placeholder="new title"
+        name="new Title"
+        onChange={(e) => {
+          setNewTitle(e.target.value);
+        }}
+      />
       <select
         onChange={(e) => {
-          setSelectedSubject(e.target.value);
+          setSelectedSubjectId(e.target.value);
         }}
       >
         {subjects.map((subject) => (
@@ -69,13 +75,7 @@ const Dashboard = () => {
           </div>
         ))}
       </div>
-      <input
-        placeholder="new title"
-        name="new Title"
-        onChange={(e) => {
-          setNewTitle(e.target.value);
-        }}
-      />
+      
       <button onClick={handleSubmit}>Submit</button>
       <p>{newTitle}</p>
       <button onClick={logout}>Logout</button>
