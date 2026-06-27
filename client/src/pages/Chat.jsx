@@ -52,6 +52,7 @@ const Chat = () => {
           onChange={(e) => {
             setInputMessage(e.target.value);
           }}
+          value={inputMessage}
           placeholder="Enter Message"
         />
         <button onClick={handleSubmit}>Submit</button>
