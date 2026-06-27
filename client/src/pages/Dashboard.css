@@ -1,0 +1,231 @@
+.dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.logout-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: var(--radius-full);
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.dashboard-main {
+  flex: 1;
+  padding: 24px 16px;
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+
+.new-convo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dashboard-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: 13px 16px;
+  font-size: 15px;
+  transition: border-color 0.2s;
+}
+
+.dashboard-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.dashboard-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.dashboard-select {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: 13px 16px;
+  font-size: 15px;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.dashboard-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.dashboard-select option {
+  background: var(--surface);
+}
+
+.create-btn {
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.create-btn:hover:not(:disabled) {
+  background: var(--accent-dim);
+}
+
+.create-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.create-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dashboard-error {
+  color: var(--error);
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.empty-state {
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 2;
+}
+
+.convo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.convo-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  gap: 12px;
+}
+
+.convo-card:hover {
+  border-color: var(--accent);
+  background: var(--surface-2);
+}
+
+.convo-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.convo-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.convo-subject {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 500;
+  margin-top: 3px;
+  display: block;
+}
+
+.delete-btn {
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.delete-btn:hover {
+  color: var(--error);
+}
+
+@media (min-width: 640px) {
+  .new-convo-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 10px;
+  }
+
+  .dashboard-input {
+    grid-column: 1 / -1;
+  }
+
+  .create-btn {
+    width: auto;
+    padding: 13px 24px;
+  }
+}
