@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0D0F14;
+  --surface: #1A1D27;
+  --surface-2: #22263A;
+  --border: #2A2D3A;
+  --accent: #6C63FF;
+  --accent-glow: rgba(108, 99, 255, 0.25);
+  --accent-dim: #4A43CC;
+  --text: #E8EAF0;
+  --text-muted: #8B8FA8;
+  --user-bubble: #6C63FF;
+  --ai-bubble: #1A1D27;
+  --error: #FF5C72;
+  --success: #4ADE80;
+  --radius: 16px;
+  --radius-sm: 8px;
+  --radius-full: 9999px;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+button {
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  border: none;
+  outline: none;
+}
+
+input, select, textarea {
+  font-family: 'Inter', sans-serif;
+  outline: none;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
