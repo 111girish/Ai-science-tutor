@@ -11,12 +11,13 @@ import conversationRoutes from './routes/conversations.js';
 
 
 const PORT = getEnv('port');
+const FRONTEND_URL = getEnv('frontendUrl')
 
 const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: "http://localhost:5173", 
+  origin: `${FRONTEND_URL}`,
   credentials: true
 }))
 
