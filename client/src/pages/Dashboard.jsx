@@ -1,27 +1,19 @@
 import { useEffect, useState } from "react";
-// import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { getSubjects } from "../api/subjects";
-import { getConversations, postConversations } from "../api/conversations";
+import { getConversations, postConversations, deleteConversations } from "../api/conversations";
+import "./Dashboard.css";
 
-// const BASE_URL = import.meta.env.VITE_API_URL;
 const Dashboard = () => {
   const navigate = useNavigate();
-
   const [subjects, setSubjects] = useState([]);
   const [conversations, setConversations] = useState([]);
   const [newTitle, setNewTitle] = useState("");
-  const [selectedSubjectId, setSelectedSubjectId] = useState("");
+  const [selectedSubject, setSelectedSubject] = useState("");
+  const [error, setError] = useState("");
+  const [creating, setCreating] = useState(false);
 
-  const subjectGet = async () => {
-    try {
-      const response = await getSubjects();
-      setSubjects(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const convoGet = async () => {
+  const fetchConversations = async () => {
     try {
       const response = await getConversations();
       setConversations(response.data);
@@ -29,57 +21,126 @@ const Dashboard = () => {
       console.log(err);
     }
   };
+
   useEffect(() => {
-    subjectGet();
-    convoGet();
+    const fetchSubjects = async () => {
+      try {
+        const response = await getSubjects();
+        setSubjects(response.data);
+        if (response.data.length > 0) {
+          setSelectedSubject(response.data[0].subject_id);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchSubjects();
+    fetchConversations();
   }, []);
+
+  const handleSubmit = async () => {
+    if (!newTitle.trim()) return setError("Please enter a title.");
+    setCreating(true);
+    setError("");
+    try {
+      await postConversations(newTitle, selectedSubject);
+      setNewTitle("");
+      await fetchConversations();
+    } catch (err) {
+      setError("Failed to create conversation.");
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  const handleDelete = async (e, convoId) => {
+    e.stopPropagation();
+    try {
+      await deleteConversations(convoId);
+      await fetchConversations();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const logout = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
 
-  const handleSubmit = async () => {
-    await postConversations(newTitle, selectedSubjectId);
-    await convoGet();
+  const getSubjectName = (subjectId) => {
+    const subject = subjects.find((s) => s.subject_id === subjectId);
+    return subject ? subject.subject : "";
   };
 
   return (
-    <>
-      <p>Dashboard page</p>
-      <input
-        placeholder="new title"
-        name="new Title"
-        onChange={(e) => {
-          setNewTitle(e.target.value);
-        }}
-      />
-      <select
-        onChange={(e) => {
-          setSelectedSubjectId(e.target.value);
-        }}
-      >
-        {subjects.map((subject) => (
-          <option key={subject.subject_id} value={subject.subject_id}>
-            {subject.subject}
-          </option>
-        ))}
-      </select>
-      <div>
-        {conversations.map((conversation) => (
-          <div
-            key={conversation.conversation_id}
-            onClick={() => navigate(`/chat/${conversation.conversation_id}`)}
-          >
-            <p>{conversation.title}</p>
+    <div className="dashboard">
+      <header className="dashboard-header">
+        <div className="header-logo">⚛ SciTutor</div>
+        <button className="logout-btn" onClick={logout}>Sign out</button>
+      </header>
+
+      <main className="dashboard-main">
+        <section className="new-convo-section">
+          <h2 className="section-title">New conversation</h2>
+          {error && <p className="dashboard-error">{error}</p>}
+          <div className="new-convo-form">
+            <input
+              className="dashboard-input"
+              placeholder="What do you want to explore?"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+            />
+            <select
+              className="dashboard-select"
+              value={selectedSubject}
+              onChange={(e) => setSelectedSubject(e.target.value)}
+            >
+              {subjects.map((subject) => (
+                <option key={subject.subject_id} value={subject.subject_id}>
+                  {subject.subject}
+                </option>
+              ))}
+            </select>
+            <button className="create-btn" onClick={handleSubmit} disabled={creating}>
+              {creating ? "Starting..." : "Start"}
+            </button>
           </div>
-        ))}
-      </div>
-      
-      <button onClick={handleSubmit}>Submit</button>
-      <p>{newTitle}</p>
-      <button onClick={logout}>Logout</button>
-    </>
+        </section>
+
+        <section className="convos-section">
+          <h2 className="section-title">Your conversations</h2>
+          {conversations.length === 0 ? (
+            <div className="empty-state">
+              <p>No conversations yet.</p>
+              <p>Start one above to begin learning.</p>
+            </div>
+          ) : (
+            <div className="convo-list">
+              {conversations.map((convo) => (
+                <div
+                  key={convo.conversation_id}
+                  className="convo-card"
+                  onClick={() => navigate(`/chat/${convo.conversation_id}`)}
+                >
+                  <div className="convo-info">
+                    <p className="convo-title">{convo.title}</p>
+                    <span className="convo-subject">{getSubjectName(convo.subject_id)}</span>
+                  </div>
+                  <button
+                    className="delete-btn"
+                    onClick={(e) => handleDelete(e, convo.conversation_id)}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      </main>
+    </div>
   );
 };
 
