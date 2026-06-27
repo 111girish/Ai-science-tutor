@@ -1,3 +1,6 @@
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getMessages, postMessages } from "../api/messages.js";
@@ -29,14 +32,21 @@ const Chat = () => {
   return (
     <>
       <p>Chat page</p>
+
       {messages.map((message) => (
         <div
           key={message.message_id}
           style={{ textAlign: message.sender === "user" ? "right" : "left" }}
         >
-          {message.content}
+          <ReactMarkdown
+            remarkPlugins={[remarkMath]}
+            rehypePlugins={[rehypeKatex]}
+          >
+            {message.content}
+          </ReactMarkdown>
         </div>
       ))}
+
       <div>
         <input
           onChange={(e) => {
