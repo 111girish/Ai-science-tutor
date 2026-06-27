@@ -79,6 +79,7 @@ const Login = () => {
         </div>
 
         <button className="auth-btn" onClick={handleSubmit} disabled={loading}>
+          {loading && <span className="spinner" />}
           {loading ? "Signing in..." : "Sign in"}
         </button>
 

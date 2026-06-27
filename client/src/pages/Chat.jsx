@@ -68,7 +68,7 @@ const Chat = () => {
         <button className="back-btn" onClick={() => navigate("/dashboard")}>
           ← Back
         </button>
-        <span className="chat-header-title">⚛ SciTutor</span>
+        <span className="chat-header-title" onClick={() => navigate("/dashboard")} style={{cursor: "pointer"}}>⚛ SciTutor</span>
         <div style={{ width: 60 }} />
       </header>
 

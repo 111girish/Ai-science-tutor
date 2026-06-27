@@ -53,8 +53,10 @@ const Dashboard = () => {
     }
   };
 
-  const handleDelete = async (e, convoId) => {
+  const handleDelete = async (e, convoId, convoTitle) => {
     e.stopPropagation();
+    const confirmed = window.confirm(`Delete "${convoTitle}"? This cannot be undone.`);
+    if (!confirmed) return;
     try {
       await deleteConversations(convoId);
       await fetchConversations();
@@ -68,10 +70,19 @@ const Dashboard = () => {
     navigate("/login");
   };
 
-  const getSubjectName = (subjectId) => {
-    const subject = subjects.find((s) => s.subject_id === subjectId);
-    return subject ? subject.subject : "";
-  };
+  // Group conversations by subject_id
+  const conversationsBySubject = subjects.reduce((acc, subject) => {
+    const subjectConvos = conversations.filter(
+      (c) => c.subject_id === subject.subject_id
+    );
+    if (subjectConvos.length > 0) {
+      acc[subject.subject_id] = {
+        name: subject.subject,
+        convos: subjectConvos,
+      };
+    }
+    return acc;
+  }, {});
 
   return (
     <div className="dashboard">
@@ -104,36 +115,42 @@ const Dashboard = () => {
               ))}
             </select>
             <button className="create-btn" onClick={handleSubmit} disabled={creating}>
-              {creating ? "Starting..." : "Start"}
+              {creating ? "Creating..." : "Create"}
             </button>
           </div>
         </section>
 
         <section className="convos-section">
           <h2 className="section-title">Your conversations</h2>
-          {conversations.length === 0 ? (
+          {Object.keys(conversationsBySubject).length === 0 ? (
             <div className="empty-state">
               <p>No conversations yet.</p>
               <p>Start one above to begin learning.</p>
             </div>
           ) : (
-            <div className="convo-list">
-              {conversations.map((convo) => (
-                <div
-                  key={convo.conversation_id}
-                  className="convo-card"
-                  onClick={() => navigate(`/chat/${convo.conversation_id}`)}
-                >
-                  <div className="convo-info">
-                    <p className="convo-title">{convo.title}</p>
-                    <span className="convo-subject">{getSubjectName(convo.subject_id)}</span>
+            <div className="subject-groups">
+              {Object.values(conversationsBySubject).map((group) => (
+                <div key={group.name} className="subject-group">
+                  <h3 className="subject-group-title">{group.name}</h3>
+                  <div className="convo-list">
+                    {group.convos.map((convo) => (
+                      <div
+                        key={convo.conversation_id}
+                        className="convo-card"
+                        onClick={() => navigate(`/chat/${convo.conversation_id}`)}
+                      >
+                        <div className="convo-info">
+                          <p className="convo-title">{convo.title}</p>
+                        </div>
+                        <button
+                          className="delete-btn"
+                          onClick={(e) => handleDelete(e, convo.conversation_id, convo.title)}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
                   </div>
-                  <button
-                    className="delete-btn"
-                    onClick={(e) => handleDelete(e, convo.conversation_id)}
-                  >
-                    ✕
-                  </button>
                 </div>
               ))}
             </div>
