@@ -11,20 +11,21 @@ import conversationRoutes from './routes/conversations.js';
 
 
 const PORT = getEnv('port');
-const FRONTEND_URL = getEnv('frontendUrl')
+const FRONTEND_URL = getEnv('frontendUrl');
+console.log(FRONTEND_URL);
 
 const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: `${FRONTEND_URL}`,
+  origin: `${FRONTEND_URL}` || 'https://localhost:5173',
   credentials: true
 }))
 
 app.use('/api', apiRoutes);
 app.use('/api', authRoutes);
-app.use('/api/', subjectRoutes);
-app.use('/api/', conversationRoutes);
+app.use('/api', subjectRoutes);
+app.use('/api', conversationRoutes);
 
 app.get("/", (req, res) => (res.send("HELLO FROM THE HOMEPAGE!!! ")));
 
