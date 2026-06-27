@@ -35,7 +35,7 @@ If the student asks about anything unrelated, politely redirect them back to ${s
     if (!result.ok) {
       const errorData = await result.json();
       console.log("Gemini error:", JSON.stringify(errorData, null, 2));
-      throw new Error("Http error!");
+      throw new Error(errorData.error.message);
 
     }
     const data = await result.json();

@@ -13,6 +13,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const bottomRef = useRef(null);
 
   const fetchMessages = async () => {
@@ -50,6 +51,7 @@ const Chat = () => {
       await fetchMessages();
     } catch (err) {
       console.log(err);
+      setError(err?.response?.data?.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }
@@ -68,7 +70,13 @@ const Chat = () => {
         <button className="back-btn" onClick={() => navigate("/dashboard")}>
           ← Back
         </button>
-        <span className="chat-header-title" onClick={() => navigate("/dashboard")} style={{cursor: "pointer"}}>⚛ SciTutor</span>
+        <span
+          className="chat-header-title"
+          onClick={() => navigate("/dashboard")}
+          style={{ cursor: "pointer" }}
+        >
+          ⚛ SciTutor
+        </span>
         <div style={{ width: 60 }} />
       </header>
 
@@ -111,7 +119,7 @@ const Chat = () => {
 
         <div ref={bottomRef} />
       </div>
-
+      {error && <p className="chat-error">{error}</p>}
       <div className="input-area">
         <div className="input-bar">
           <textarea

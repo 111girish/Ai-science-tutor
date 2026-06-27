@@ -301,3 +301,10 @@
     margin: 8px auto 0;
   }
 }
+
+.chat-error {
+  text-align: center;
+  color: var(--error);
+  font-size: 13px;
+  padding: 8px;
+}

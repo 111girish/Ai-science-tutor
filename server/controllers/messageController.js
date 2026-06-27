@@ -53,7 +53,7 @@ export const postMessage = async (req, res) => {
     res.status(200).json({message:"Ai has sent it's response", data: AIresponse});
   }catch(err){
     console.log(err);
-    res.status(400).json({message: "There seems to be an error!!!"})
+    res.status(400).json({message:err.message})
   } finally{
     client.release();
   }
