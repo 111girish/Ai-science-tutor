@@ -1,16 +1,13 @@
 import { loginUser } from "../api/auth.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
+import "./Auth.css";
 
 const Login = () => {
   const navigate = useNavigate();
-
-  const [loginData, setLoginData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
+  const [loginData, setLoginData] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,28 +15,78 @@ const Login = () => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
+    setError("");
     try {
-      const response = await loginUser(
-        loginData.username,
-        loginData.email,
-        loginData.password,
-      );
-      localStorage.setItem("token", response.token);
+      await loginUser(loginData.username, loginData.email, loginData.password);
       navigate("/dashboard");
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed. Check your credentials.");
+      setError(err.response?.data?.message || "Invalid credentials. Try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") handleSubmit();
+  };
+
   return (
-    <>
-      <p>Login page</p>
-      <input onChange={handleChange} placeholder="username" name="username" />
-      <input onChange={handleChange} placeholder="password" type="password" name="password" />
-      <input onChange={handleChange} placeholder="email" type="email" name="email" />
-      <button onClick={handleSubmit}>Login</button>
-      {error && <p>{error}</p>}
-    </>
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-logo">⚛</div>
+        <h1 className="auth-title">Welcome back</h1>
+        <p className="auth-subtitle">Sign in to continue learning</p>
+
+        {error && <div className="auth-error">{error}</div>}
+
+        <div className="auth-fields">
+          <div className="field-group">
+            <label className="field-label">Username</label>
+            <input
+              className="auth-input"
+              name="username"
+              placeholder="your_username"
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              autoComplete="username"
+            />
+          </div>
+          <div className="field-group">
+            <label className="field-label">Email</label>
+            <input
+              className="auth-input"
+              name="email"
+              type="email"
+              placeholder="you@email.com"
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              autoComplete="email"
+            />
+          </div>
+          <div className="field-group">
+            <label className="field-label">Password</label>
+            <input
+              className="auth-input"
+              name="password"
+              type="password"
+              placeholder="••••••••"
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              autoComplete="current-password"
+            />
+          </div>
+        </div>
+
+        <button className="auth-btn" onClick={handleSubmit} disabled={loading}>
+          {loading ? "Signing in..." : "Sign in"}
+        </button>
+
+        <p className="auth-footer">
+          No account? <Link to="/register">Create one</Link>
+        </p>
+      </div>
+    </div>
   );
 };
 
