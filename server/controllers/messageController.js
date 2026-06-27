@@ -13,6 +13,7 @@ export const getMessage = async (req, res) => {
     const result = await client.query(text, value);
     const data = result.rows;
     res.status(200).json({message: "The data is returned!!!", data: data});
+    console.log(data);
 
   } catch (err){
     console.log(err);
