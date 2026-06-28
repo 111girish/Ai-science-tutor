@@ -9,13 +9,13 @@ An AI-powered science tutoring web app where students can have subject-specific 
 ## Screenshots
 
 ### Homepage
-![alt text](images/image.png)
+![alt text](images/homepage.png.png)
 
 ### Dashboard
-![alt text](images/image-1.png)
+![alt text](images/dashboard.png)
 
 ### Chat
-![alt text](images/image-2.png)
+![alt text](images/chatpage.png)
 
 ---
 
